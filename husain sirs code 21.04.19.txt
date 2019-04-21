@@ -1,0 +1,223 @@
+1*= C++ FUNCTION TEST:
+***********************************************
+:
+***********************************************
+#include <iostream>
+
+using namespace std;
+
+extern "C" int CountPrimes(long, long);
+
+int main(void)
+{
+	long l, u;
+	cout << "Enter lower and upper limits: ";
+	cin >> l >> u;
+
+	cout << "Number of Primes = "
+	     << CountPrimes(l, u)
+	     << endl;
+}
+
+***********************************************
+2*=DEFAULT ARGUMENT TEST:=
+***********************************************
+
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+double Income(double invest, short duration, float rate=4)
+{
+	double amount = invest * pow(1 + rate / 100, duration);
+	return amount - invest;
+}
+
+int main(void)
+{
+	double p;
+	short n;
+
+	cout << "Enter investment and duration: ";
+	cin >> p >> n;
+
+	cout << "Income from fixed-deposit: "
+		 << Income(p, n, 6)
+		 << endl;
+	cout << "Income from savings-account: "
+		 << Income(p, n)
+		 << endl;
+}
+
+*************************************************
+3*=REFERENCE TYPE TEST:=
+*************************************************
+
+
+1ST;=
+
+
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+double Income(double invest, short duration, float rate)
+{
+	double amount = invest * pow(1 + rate / 100, duration);
+	return amount - invest;
+}
+
+inline double Income(double invest, short duration)
+{
+	return Income(invest, duration, duration < 3 ? 4 : 6);
+}
+
+int main(void)
+{
+	double p;
+	short n;
+
+	cout << "Enter investment and duration: ";
+	cin >> p >> n;
+
+	cout << "Income from fixed-deposit: "
+		 << Income(p, n, 6)
+		 << endl;
+	cout << "Income from savings-account: "
+		 << Income(p, n) //Income(p, n, n < 3 ? 4 : 6)
+		 << endl;
+}
+
+
+
+2ND:=
+
+#include <iostream>
+
+using namespace std;
+
+void Swap(double& first, double& second)
+{
+	double third = first;
+	first = second;
+	second = third;
+}
+
+int main(void)
+{
+	double x = 3.4, y = 4.3;
+	cout << "Original values: " << x << ", " << y << endl;
+	Swap(x, y);
+	cout << "Swapped values: " << x << ", " << y << endl;
+}
+
+********************************************************
+4*=
+********************************************************
+
+#include <iostream>
+
+using namespace std;
+
+extern double Power(double, long);
+
+int main(void)
+{
+	double b;
+	long i;
+
+	cout << "Enter base and index: ";
+	cin >> b >> i;
+	
+	cout << "Power = "
+	     << Power(b, i)
+	     << endl;	
+}
+
+
+
+************************************************************
+5*=BASIC NAMESPACE TEST:=WITHOUT USING NAMESPACE STD LIB;
+************************************************************
+1:=
+
+int age = 43;
+
+namespace Jack
+{
+	int age = 22;
+}
+
+int main(void)
+{
+	int age = 34;
+	return age + ::age + Jack::age;		
+}
+
+
+###   HEADERFILE #####
+
+namespace Jack
+{
+	int age = 43;
+
+	namespace Jill
+	{
+		int age = 35;
+	}
+}
+
+ 
+
+2:=
+#include "people.h"
+
+int main(void)
+{
+	using namespace Jack;
+	return age + Jill::age;
+}
+*****************************************************
+**** USING NAMESPACE STD LIB;
+*****************************************************
+   #include <iostream>
+
+using namespace std;
+
+void Swap(double& first, double& second)
+{
+	double third = first;
+	first = second;
+	second = third;
+}
+
+int main(void)
+{
+	double x = 3.4, y = 4.3;
+	cout << "Original values: " << x << ", " << y << endl;
+	Swap(x, y);
+	cout << "Swapped values: " << x << ", " << y << endl;
+}
+
+
+
+
+
+****************************************************************
+2ND:=
+*****************************************************************
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main(void)
+{
+	string name;
+	cout << "Your name: ";
+	cin >> name;
+	cout << "Hello " << name << endl;
+}
